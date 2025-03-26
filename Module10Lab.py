@@ -1,32 +1,41 @@
-def calculate_average(numbers):
-    if len(numbers) <= 0:
-        return None
-    total = 0
-    for num in numbers:
-        total += num
-    return total / len(numbers)
+"""
+This program asks the user for input and then prints that many powers of two.
 
-def find_max(numbers):
-    if not numbers:
-        return None
-    max_num = numbers[0]
-    for num in numbers:
-        if num > max_num:
-            max_num = num
-    return max_num
+It includes a function for returning powers of two and a function for
+getting user integer input
 
-def main():
-    data = [10, 5, 8, 12, 3, 7]
-    average = calculate_average(data)
-    maximum = find_max(data)
-    print(f"The average is: {average}")
-    print(f"The maximum is: {maximum}")
+usage: import pr_test
+"""
 
-    empty_list = []
-    empty_average = calculate_average(empty_list)
-    empty_max = find_max(empty_list)
-    print(f"Empty list average: {empty_average}")
-    print(f"Empty list maximum: {empty_max}")
+def get_positive_integer_input(question_string):
+    """keeps asking the user for input until they either respond with an integer or quit
+    returns None if the user quits, otherwise returns the integer
+    """
+    # Ask user for input
+    user_input = input(question_string).strip()
+    # if the input isn't an integer, keep looping until it is, or they quit
+    while not user_input.isdecimal():
+        if user_input.lower() in ["q", "quit", "exit"]:
+            return None
+        print("Positive integers only please.")
+        user_input = input(question_string)
+    return int(user_input)
 
-if __name__ == "__main__":
-    main()
+def powers_of_2(amount):
+    """returns some number of powers of two"""
+    p_of_2 = [2**x for x in range(1, amount + 1)]
+    return p_of_2
+
+# loop until the user quits
+keep_playing = True
+while keep_playing:
+    amount = get_positive_integer_input("How many powers of two would you like?")
+    if amount is not None:
+        print(powers_of_2(amount))
+        if input("again?").lower() not in ["y", "yes"]:
+            # stop playing if the user wants to stop
+            keep_playing = False
+    else:
+        # stop playing if the user refused to give an integer
+        keep_playing = False
+print("Goodbye!")
